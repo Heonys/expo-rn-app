@@ -1,20 +1,43 @@
-import { View, Text, SafeAreaView, StatusBar, StyleSheet, Platform } from "react-native";
+import { View, Text, SafeAreaView, StatusBar, StyleSheet, Platform, FlatList } from "react-native";
 import React from "react";
 import InputForm from "../components/InputForm";
 import TodoItem from "../components/TodoItem";
+import { useSelector } from "react-redux";
 
 export default function MainScreen() {
+  const todos = useSelector((state) => state.todo.todos);
+
+  const todoTask = todos.filter((todo) => todo.state === "todo");
+  const complatedTask = todos.filter((todo) => todo.state === "done");
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle={"default"} />
       <Text style={styles.pageTitle}>todo app</Text>
       <View style={styles.listView}>
         <Text style={styles.listTitle}>할일</Text>
+        {todoTask.length !== 0 ? (
+          <FlatList
+            data={todoTask}
+            renderItem={({ item }) => <TodoItem {...item} />}
+            keyExtractor={(item) => item.id}
+          />
+        ) : (
+          <Text style={styles.emptyListText}>할 일이 없습니다</Text>
+        )}
       </View>
-      <TodoItem />
       <View style={styles.separator} />
       <View style={styles.listView}>
         <Text style={styles.listTitle}>완료된 일</Text>
+        {complatedTask.length !== 0 ? (
+          <FlatList
+            data={complatedTask}
+            renderItem={({ item }) => <TodoItem {...item} />}
+            keyExtractor={(item) => item.id}
+          />
+        ) : (
+          <Text style={styles.emptyListText}>완료된 일이 없습니다</Text>
+        )}
       </View>
       <InputForm />
     </SafeAreaView>
@@ -48,5 +71,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     fontSize: 41,
     fontWeight: "500",
+  },
+  emptyListText: {
+    paddingTop: 10,
+    paddingBottom: 15,
+    paddingHorizontal: 15,
+    fontSize: 15,
+    lineHeight: 20,
+    color: "#737373",
   },
 });
