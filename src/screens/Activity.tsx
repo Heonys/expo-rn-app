@@ -10,7 +10,9 @@ const Activity = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>활동</Text>
-      <ScrollView style={styles.scrollContainer}>
+      <ScrollView
+        style={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}>
         <ActivityThisWeek data={friendsProfileData.slice(0, 3)} />
         <Text style={styles.scrollContainerText}>이전 활동</Text>
         {friendsProfileData.slice(3, 6).map((data, key) => {

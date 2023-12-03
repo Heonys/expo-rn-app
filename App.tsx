@@ -18,12 +18,17 @@ import Status from './src/screens/Status';
 import FriendProfile from './src/screens/FriendProfile';
 import EditProfile from './src/screens/EditProfile';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {ProfileData} from './Mock/friendsProfileData';
 
 export type RootStackParamList = {
   Bottom: undefined;
   Status: {name: string; image: any};
-  FriendProfile: any;
-  EditProfile: any;
+  FriendProfile: Partial<ProfileData>;
+  EditProfile: {
+    name: string;
+    acountName: string;
+    profileImage: any;
+  };
 };
 
 function App(): JSX.Element {

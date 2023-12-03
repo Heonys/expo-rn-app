@@ -12,6 +12,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionic from 'react-native-vector-icons/Ionicons';
 import {Post} from '../../Mock/postData';
+import PushNotification from 'react-native-push-notification';
 
 type Props = {
   data: Post;
@@ -22,11 +23,27 @@ const PostItem = ({
 }: Props) => {
   const [like, setLike] = useState(isLiked);
 
+  const handleNotofication = (title: string) => {
+    PushNotification.getChannels(function (channel_ids) {
+      console.log(channel_ids);
+    });
+
+    PushNotification.localNotification({
+      channelId: 'channel-id',
+      title: `${title}을 클릭했습니다.`,
+      message: title,
+      bigText: 'My big text that will be shown when notification is expanded)',
+      color: 'red',
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <View style={styles.postContainer}>
-          <Image source={postPersonImage} style={styles.personImage} />
+          <TouchableOpacity onPress={() => handleNotofication(postTitle)}>
+            <Image source={postPersonImage} style={styles.personImage} />
+          </TouchableOpacity>
           <View style={styles.postHeader}>
             <Text style={styles.postTitle}>{postTitle}</Text>
           </View>

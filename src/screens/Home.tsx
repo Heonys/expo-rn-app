@@ -1,5 +1,5 @@
 import {Text} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {StatusBar} from 'react-native';
 import {View} from 'react-native';
@@ -9,8 +9,23 @@ import Feather from 'react-native-vector-icons/Feather';
 import {ScrollView} from 'react-native';
 import Stories from '../components/Stories';
 import Posts from '../components/Posts';
+import PushNotification from 'react-native-push-notification';
 
 const Home = () => {
+  useEffect(() => {
+    createChannel();
+  }, []);
+
+  const createChannel = () => {
+    PushNotification.createChannel(
+      {
+        channelId: 'channel-id',
+        channelName: 'My channel',
+      },
+      created => console.log(`createChannel returned '${created}'`),
+    );
+  };
+
   return (
     <SafeAreaView>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
